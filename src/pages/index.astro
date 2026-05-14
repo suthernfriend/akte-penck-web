@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { withBase } from "../lib/url";
+
+const all = await getCollection("articles", ({ data }) => !data.draft);
+const sorted = all.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const latest = sorted.slice(0, 5);
+const hasMore = sorted.length > latest.length;
+---
+
+<BaseLayout
+  title="Akte Penck"
+  description="Der Fall Käthe Penck — Stand der Dinge. Privates fiktionales Krimi-Projekt."
+>
+  <section class="pt-2 pb-10 sm:py-12 border-b border-[var(--color-frame-line)]">
+    <p class="text-xs uppercase tracking-[0.2em] text-[var(--color-frame-muted)]">
+      Stand der Dinge
+    </p>
+    <h1 class="mt-2 font-[var(--font-frame-serif)] text-3xl sm:text-5xl leading-tight">
+      Der Fall Käthe Penck
+    </h1>
+    <p class="mt-4 max-w-2xl text-[var(--color-frame-fg)]/80 leading-relaxed">
+      Eine Sammlung von Pressemeldungen, Behördenmitteilungen und Dokumenten
+      rund um das Verschwinden der Leipziger Bodenforscherin
+      Dr. Käthe Penck. Wird laufend ergänzt.
+    </p>
+  </section>
+
+  <section class="py-8 sm:py-10">
+    <div class="flex items-baseline justify-between mb-5">
+      <h2 class="font-[var(--font-frame-serif)] text-xl sm:text-2xl">Aktuelle Meldungen</h2>
+      {hasMore && (
+        <a
+          href={withBase("/archiv/")}
+          class="text-sm text-[var(--color-frame-fg)] hover:text-white underline underline-offset-2 decoration-[var(--color-pencil)]"
+        >
+          Volles Archiv →
+        </a>
+      )}
+    </div>
+
+    {latest.length === 0 ? (
+      <p class="text-[var(--color-frame-muted)] italic">
+        Noch keine Meldungen vorhanden.
+      </p>
+    ) : (
+      <ul class="grid gap-4 sm:gap-6 sm:grid-cols-2">
+        {latest.map((article) => (
+          <li>
+            <ArticleCard article={article} />
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</BaseLayout>

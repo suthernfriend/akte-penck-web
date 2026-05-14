@@ -1,0 +1,53 @@
+---
+import { withBase } from "../lib/url";
+
+// Iteration 1: nur Aktuell + Archiv. Chronik und Dokumente kommen in
+// Iteration 2 dazu, dann hier wieder einkommentieren.
+const nav = [
+  { href: "/", label: "Aktuell" },
+  { href: "/archiv/", label: "Archiv" },
+  // { href: "/chronik/", label: "Chronik" },
+  // { href: "/dokumente/", label: "Dokumente" },
+];
+
+const current = Astro.url.pathname;
+function isActive(href: string) {
+  const target = withBase(href);
+  if (target === withBase("/")) return current === target;
+  return current.startsWith(target);
+}
+---
+
+<header class="border-b border-[var(--color-frame-line)]">
+  <div class="mx-auto max-w-5xl px-4 py-5 flex items-center justify-between gap-4">
+    <a
+      href={withBase("/")}
+      class="font-[var(--font-frame-serif)] text-lg sm:text-xl tracking-wide"
+    >
+      <span class="text-[var(--color-frame-muted)] mr-2">Akte</span>
+      <span>Penck</span>
+    </a>
+
+    <nav aria-label="Hauptnavigation">
+      <ul class="flex items-center gap-4 sm:gap-6 text-sm">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={withBase(item.href)}
+                class:list={[
+                  "hover:text-white transition-colors",
+                  isActive(item.href)
+                    ? "text-white border-b border-[var(--color-pencil)] pb-0.5"
+                    : "text-[var(--color-frame-fg)]",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

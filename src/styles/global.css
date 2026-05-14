@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/*
+  Akte Penck — globales Stylesheet.
+  Tailwind v4 CSS-first config: Theme-Tokens werden hier definiert,
+  keine tailwind.config.js noetig.
+*/
+
+@theme {
+  /* Dossier-Frame (dunkel) */
+  --color-frame-bg: #16130f;
+  --color-frame-fg: #e8e4dc;
+  --color-frame-muted: #9a9387;
+  --color-frame-line: #2a251f;
+
+  /* Papier (Artikel-Body, Karten) */
+  --color-paper-bg: #f4eee2;
+  --color-paper-ink: #1a1714;
+  --color-paper-muted: #5b554c;
+
+  /* Akzent: Bleistift-Blau */
+  --color-pencil: #1f3a6e;
+  --color-pencil-hover: #2d4d8a;
+
+  /* LVZ Markenfarben */
+  --color-lvz-banner: #3563cc;
+  --color-lvz-wordmark: #1c3a8e;
+  --color-lvz-kicker: #1c3a8e;
+
+  /* Site-Typografie */
+  --font-frame-serif: "Newsreader", "Source Serif 4", Georgia, serif;
+  --font-frame-sans: "Inter", "IBM Plex Sans", system-ui, sans-serif;
+
+  /* LVZ-Typografie.
+     Wordmark-Font ist per Variable austauschbar:
+     Optionen sind als Klassen unten definiert (.lvz-wordmark-bodoni etc.)
+     - Bodoni Moda    : kontrastreich, klassisch
+     - Cormorant Garamond : etwas weicher, eleganter
+     - Libre Caslon Display : zeitungstauglich, robust */
+  --font-lvz-wordmark: "Bodoni Moda", "Libre Caslon Display", "Cormorant Garamond", Georgia, serif;
+  --font-lvz-headline: "Source Sans 3", "Inter", system-ui, sans-serif;
+  --font-lvz-body: "Source Serif 4", "Merriweather", Georgia, serif;
+  --font-lvz-meta: "Source Sans 3", "Inter", system-ui, sans-serif;
+}
+
+/* Basis: dunkler Dossier-Frame */
+html {
+  background: var(--color-frame-bg);
+  color: var(--color-frame-fg);
+  font-family: var(--font-frame-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-frame-bg);
+  color: var(--color-frame-fg);
+  min-height: 100dvh;
+}
+
+/* Fokus-Stile fuer A11y (sichtbar auf hellem wie dunklem Grund) */
+:focus-visible {
+  outline: 2px solid var(--color-pencil);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Wordmark-Varianten (per Klassentausch im Header probieren) */
+.lvz-wordmark-bodoni { font-family: "Bodoni Moda", Georgia, serif; }
+.lvz-wordmark-caslon { font-family: "Libre Caslon Display", Georgia, serif; }
+.lvz-wordmark-cormorant { font-family: "Cormorant Garamond", Georgia, serif; }
+
+/* Prose-Defaults fuer Artikel-Body (Tailwind v4 hat kein @tailwindcss/typography
+   eingebaut, also minimaler eigener Style fuer Markdown-Output) */
+.prose-paper {
+  color: var(--color-paper-ink);
+  font-family: var(--font-lvz-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+.prose-paper p { margin: 0 0 1.1em; }
+.prose-paper h2 {
+  font-family: var(--font-lvz-headline);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  margin: 1.8em 0 0.5em;
+  color: var(--color-paper-ink);
+}
+.prose-paper h3 {
+  font-family: var(--font-lvz-headline);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  margin: 1.5em 0 0.4em;
+}
+.prose-paper a {
+  color: var(--color-pencil);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-paper a:hover { color: var(--color-pencil-hover); }
+.prose-paper blockquote {
+  border-left: 3px solid var(--color-lvz-wordmark);
+  margin: 1.5em 0;
+  padding: 0.2em 0 0.2em 1em;
+  color: var(--color-paper-muted);
+  font-style: italic;
+}
+.prose-paper ul, .prose-paper ol {
+  margin: 0 0 1.1em 1.4em;
+}
+.prose-paper li { margin: 0.3em 0; }
+.prose-paper img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em 0;
+}
+.prose-paper hr {
+  border: 0;
+  border-top: 1px solid #d8cfbd;
+  margin: 2em 0;
+}

@@ -1,0 +1,168 @@
+---
+import { withBase } from "../../lib/url";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  /** Lesedauer-Schaetzung in Minuten (vom Layout berechnet) */
+  readingMinutes: number;
+}
+
+const { article, readingMinutes } = Astro.props;
+const { title, section, date, author, lead, kicker, hero_image, hero_caption } = article.data;
+
+const dateLabel = date.toLocaleDateString("de-DE", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+const timeLabel = date.toLocaleTimeString("de-DE", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+// Statische Sektions-Nav-Items (keine echten Links, nur Optik)
+const sections = [
+  "Newsletter",
+  "Leipzig",
+  "Sachsen",
+  "Polizeiticker",
+  "Aus der Region",
+  "Landespolitik",
+  "Sport",
+  "Kultur",
+];
+---
+
+{/* Das gesamte LVZ-Block liegt auf weissem Hintergrund und bricht damit
+    den dunklen Dossier-Frame visuell auf. */}
+<div class="bg-white text-black">
+  {/* 1. Schmaler blauer rND-Banner */}
+  <div class="bg-[var(--color-lvz-banner)] text-white text-[12px] sm:text-[13px]">
+    <div class="mx-auto max-w-5xl px-4 py-1.5 flex items-center justify-center gap-2">
+      <span aria-hidden="true" class="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-white/15 font-bold text-[10px] tracking-tight">
+        rND
+      </span>
+      <span class="font-medium">Partner im RedaktionsNetzwerk Deutschland</span>
+    </div>
+  </div>
+
+  {/* 2. Header mit Wordmark, Icons */}
+  <div class="border-b border-zinc-200">
+    <div class="mx-auto max-w-5xl px-4 py-4 sm:py-5 grid grid-cols-3 items-center">
+      {/* Links: Burger + Lupe */}
+      <div class="flex items-center gap-3 sm:gap-4 text-zinc-700">
+        <button type="button" aria-label="Menü" class="p-1 hover:text-black cursor-default">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <button type="button" aria-label="Suche" class="p-1 hover:text-black cursor-default">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mittig: Wordmark */}
+      <div class="text-center">
+        <span
+          class="lvz-wordmark-bodoni text-[var(--color-lvz-wordmark)] block leading-none tracking-tight text-[22px] sm:text-[34px] md:text-[40px] font-bold"
+        >
+          Leipziger Volkszeitung
+        </span>
+      </div>
+
+      {/* Rechts: E-Paper + User */}
+      <div class="flex items-center justify-end gap-2 sm:gap-3 text-zinc-700">
+        <span class="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-white bg-[var(--color-lvz-wordmark)] px-2.5 py-1 rounded-sm">
+          E-Paper
+        </span>
+        <button type="button" aria-label="Konto" class="p-1 hover:text-black cursor-default">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* 3. Sektionsnavigation */}
+  <nav aria-label="Sektionen" class="border-b border-zinc-200 overflow-x-auto">
+    <ul class="mx-auto max-w-5xl px-4 flex items-center gap-5 sm:gap-7 py-3 text-[13px] sm:text-sm font-medium text-zinc-800 whitespace-nowrap">
+      {
+        sections.map((s) => (
+          <li>
+            <span class:list={["hover:text-black cursor-default", s === section ? "text-black font-semibold" : ""]}>
+              {s}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  {/* 4. Artikel-Body */}
+  <article class="mx-auto max-w-5xl px-4 pt-6 sm:pt-10 pb-12">
+    {hero_image && (
+      <figure class="mb-6 sm:mb-8">
+        <img
+          src={withBase(hero_image)}
+          alt={hero_caption ?? title}
+          loading="eager"
+          class="w-full h-auto block"
+        />
+        {hero_caption && (
+          <figcaption class="mt-2 text-[12px] sm:text-[13px] text-zinc-500 font-[var(--font-lvz-meta)]">
+            {hero_caption}
+          </figcaption>
+        )}
+      </figure>
+    )}
+
+    <div class="mx-auto" style="max-width: 640px;">
+      {kicker && (
+        <div class="mb-2 text-[var(--color-lvz-kicker)] font-[var(--font-lvz-headline)] text-sm sm:text-[15px] font-semibold uppercase tracking-wide">
+          {kicker}
+        </div>
+      )}
+
+      <h1 class="font-[var(--font-lvz-headline)] text-3xl sm:text-[40px] leading-[1.1] font-black text-black">
+        {title}
+      </h1>
+
+      <p class="mt-5 text-lg sm:text-xl leading-snug text-black font-medium font-[var(--font-lvz-body)]">
+        {lead}
+      </p>
+
+      <div class="mt-4 mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] sm:text-[13px] text-zinc-500 font-[var(--font-lvz-meta)]">
+        <span>Von <span class="text-zinc-700 font-medium">{author}</span></span>
+        <span aria-hidden="true">·</span>
+        <time datetime={date.toISOString()}>
+          {dateLabel}, {timeLabel} Uhr
+        </time>
+        <span aria-hidden="true">·</span>
+        <span>{readingMinutes} Min. Lesezeit</span>
+      </div>
+
+      <hr class="border-zinc-200 mb-6" />
+
+      <div class="prose-paper">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+  {/* 5. Publikations-Disclaimer, knapp ueber dem Site-Footer */}
+  <div class="border-t border-zinc-200 bg-zinc-50">
+    <p class="mx-auto max-w-5xl px-4 py-4 text-[12px] sm:text-[13px] text-zinc-500 italic leading-relaxed">
+      Diese Seite ist eine fiktive Reproduktion im Rahmen eines privaten
+      künstlerischen Projekts. Keine Affiliation mit der Leipziger Volkszeitung
+      oder dem Madsack-Verlag.
+    </p>
+  </div>
+</div>

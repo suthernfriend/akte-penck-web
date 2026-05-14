@@ -1,0 +1,58 @@
+---
+import { withBase } from "../lib/url";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { title, publication, section, date, lead, tags } = article.data;
+
+const dateLabel = date.toLocaleDateString("de-DE", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+});
+
+// Publikations-Label-Farben pro Marke (klein gehalten, mehr nicht)
+const pubColor: Record<string, string> = {
+  LVZ: "bg-[var(--color-lvz-wordmark)] text-white",
+  BILD: "bg-red-600 text-white",
+};
+const pubClass = pubColor[publication] ?? "bg-zinc-700 text-white";
+---
+
+<a
+  href={withBase(`/archiv/${article.id}/`)}
+  class="group block rounded-sm bg-[var(--color-paper-bg)] text-[var(--color-paper-ink)] overflow-hidden shadow-[0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_2px_24px_rgba(0,0,0,0.5)] transition-shadow"
+>
+  <article class="p-5 sm:p-6">
+    <div class="flex items-center gap-3 mb-3">
+      <span class={`inline-block text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 ${pubClass}`}>
+        {publication}
+      </span>
+      <span class="text-xs text-[var(--color-paper-muted)] font-medium">{section}</span>
+      <time
+        datetime={date.toISOString().slice(0, 10)}
+        class="ml-auto text-xs text-[var(--color-paper-muted)] tabular-nums"
+      >
+        {dateLabel}
+      </time>
+    </div>
+
+    <h2 class="font-[var(--font-lvz-headline)] text-xl sm:text-2xl font-extrabold leading-tight group-hover:underline decoration-[var(--color-pencil)] underline-offset-2">
+      {title}
+    </h2>
+
+    <p class="mt-3 text-sm sm:text-base leading-relaxed text-[var(--color-paper-ink)]/85">
+      {lead}
+    </p>
+
+    {tags.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2 text-[11px] text-[var(--color-paper-muted)]">
+        {tags.map((t) => <li>#{t}</li>)}
+      </ul>
+    )}
+  </article>
+</a>

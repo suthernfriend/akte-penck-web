@@ -1,0 +1,44 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import LvzArticle from "../components/article/LvzArticle.astro";
+import BildArticle from "../components/article/BildArticle.astro";
+import { withBase } from "../lib/url";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  /** vom Markdown gerenderter Body als HTML-Length-Approximation (in Woertern). */
+  wordCount: number;
+}
+
+const { article, wordCount } = Astro.props;
+const { title, publication, lead } = article.data;
+
+const readingMinutes = Math.max(1, Math.round(wordCount / 220));
+---
+
+<BaseLayout title={title} description={lead} fullBleed>
+  {/* Brotkrumen liegen auf dem dunklen Frame, oberhalb der weissen Zeitungsseite */}
+  <div class="mx-auto max-w-5xl px-4 pt-4 pb-3 text-xs text-[var(--color-frame-muted)]">
+    <a href={withBase("/")} class="hover:text-white">Aktuell</a>
+    <span class="mx-2">›</span>
+    <a href={withBase("/archiv/")} class="hover:text-white">Archiv</a>
+    <span class="mx-2">›</span>
+    <span class="text-[var(--color-frame-fg)]">{publication}</span>
+  </div>
+
+  {
+    publication === "LVZ" && (
+      <LvzArticle article={article} readingMinutes={readingMinutes}>
+        <slot />
+      </LvzArticle>
+    )
+  }
+  {
+    publication === "BILD" && (
+      <BildArticle article={article} readingMinutes={readingMinutes}>
+        <slot />
+      </BildArticle>
+    )
+  }
+</BaseLayout>
