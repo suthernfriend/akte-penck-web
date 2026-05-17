@@ -32,7 +32,7 @@ Die Identität der jungen Frau aus Leutzsch wurde nach Polizeiangaben über die 
 
 ## Zugriff am Donnerstagvormittag
 
-Gegen 10:30 Uhr durchsuchten Beamte der Leipziger Kriminalpolizei eine Wohnung in einem Mehrfamilienhaus in Leutzsch. Die 26-jährige Bewohnerin, polizeilich bisher nicht in Erscheinung getreten, war zum Zeitpunkt der Maßnahme nicht zu Hause. Sie soll sich nach Erkenntnissen der Ermittler bei einem privaten Treffen mit Freunden im Leipziger Stadtgebiet aufgehalten und im Verlauf des Vormittags telefonisch von der Maßnahme erfahren haben. Eine Festnahme erfolgte zunächst nicht; eine Vernehmung als Beschuldigte ist für den Nachmittag angesetzt.
+Gegen 10:30 Uhr durchsuchten Beamte der Leipziger Kriminalpolizei eine Wohnung in einem Mehrfamilienhaus in Leutzsch. Die 29-jährige Bewohnerin, polizeilich bisher nicht in Erscheinung getreten, war zum Zeitpunkt der Maßnahme nicht zu Hause. Sie soll sich nach Erkenntnissen der Ermittler bei einem privaten Treffen mit Freunden im Leipziger Stadtgebiet aufgehalten und im Verlauf des Vormittags telefonisch von der Maßnahme erfahren haben. Eine Festnahme erfolgte zunächst nicht; eine Vernehmung als Beschuldigte ist für den Nachmittag angesetzt.
 
 Sichergestellt wurden Karten und Skizzen mit Eintragungen an verschiedenen Orten im Leipziger Süden, eine größere Zahl Sofortbild-Fotografien, »Druckerzeugnisse in Anlehnung an behördliche und journalistische Optik« sowie das aus der Penck-Wohnung verschwundene Material. Auffällig seien zudem »offenbar mit generativen Bildverfahren erstellte Porträts zweier männlicher Personen, deren reale Existenz derzeit nicht angenommen wird«.
 
